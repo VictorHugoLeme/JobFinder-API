@@ -5,6 +5,7 @@ A simple API to publish and search for jobs.
 ## Installation
 
 ```
+
 Build the image from the Dockerfile
 Run the docker-compose file.
 PostgreSQL is built on the fly with Docker.
