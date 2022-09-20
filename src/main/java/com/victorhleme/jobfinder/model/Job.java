@@ -10,6 +10,7 @@ import java.io.Serializable;
 @AllArgsConstructor
 @Getter
 @Setter
+@With
 @EqualsAndHashCode(of = {"id"})
 public class Job implements Serializable {
     @Id

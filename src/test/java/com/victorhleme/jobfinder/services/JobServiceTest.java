@@ -1,6 +1,7 @@
 package com.victorhleme.jobfinder.services;
 
 import com.victorhleme.jobfinder.dto.JobDTO;
+import com.victorhleme.jobfinder.dto.JobInsertDto;
 import com.victorhleme.jobfinder.exceptions.JobNotFoundException;
 import com.victorhleme.jobfinder.model.Job;
 import com.victorhleme.jobfinder.repositories.JobRepository;
@@ -87,7 +88,7 @@ class JobServiceTest {
         void findByIdTestSuccess() {
             Integer jobId = 1;
 
-            Optional<Job> job = Optional.of(criarJob());
+            Optional<Job> job = Optional.of(createJob());
             when(jobRepository.findById(jobId)).thenReturn(job);
 
             JobDTO actualJob =  jobService.findById(jobId);
@@ -112,8 +113,9 @@ class JobServiceTest {
     @DisplayName("Tests for method insert")
     class InsertTests {
 
-        Job job = criarJob();
-        JobDTO jobDto = criarJobDTO();
+        Job job = createJob();
+        JobInsertDto InsertDto = createJobInsertDTO();
+        JobDTO jobDto = createJobDTO();
 
         @BeforeEach
         void setup() {
@@ -123,12 +125,12 @@ class JobServiceTest {
         @Test
         void insertTestSuccess() {
 
-            when(jobRepository.save(job)).thenReturn(job);
+            when(jobRepository.save(any(Job.class))).thenReturn(job);
 
-            JobDTO insertedDTO = jobService.insert(jobDto);
-            assertEquals(jobDto, insertedDTO);
+            JobDTO newDto = jobService.insert(InsertDto);
+            assertEquals(jobDto, newDto);
             assertDoesNotThrow(() -> {
-                jobService.insert(jobDto);
+                jobService.insert(InsertDto);
             });
         }
 
@@ -151,7 +153,7 @@ class JobServiceTest {
         Job job = new Job(1, "Tt", "Desc", 0,0);
         Job job2 = new Job(2, "Tt", "Desc", 0,0);
 
-        JobDTO jobDto = new JobDTO(null, "Tt", "Desc", 0,0);
+        JobInsertDto jobDto = new JobInsertDto("Tt", "Desc", 0,0);
 
         @Test
         void updateTestSuccess() {
@@ -207,13 +209,18 @@ class JobServiceTest {
         }
     }
 
-    private Job criarJob() {
+    private Job createJob() {
         return new Job(
                 1, "name", "desc", 10, 10);
     }
 
-    private JobDTO criarJobDTO() {
+    private JobDTO createJobDTO() {
         return new JobDTO(
                 1, "name", "desc", 10, 10);
+    }
+
+    private JobInsertDto createJobInsertDTO() {
+        return new JobInsertDto(
+            "name", "desc", 10, 10);
     }
 }

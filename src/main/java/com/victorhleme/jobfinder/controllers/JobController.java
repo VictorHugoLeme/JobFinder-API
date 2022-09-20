@@ -1,6 +1,7 @@
 package com.victorhleme.jobfinder.controllers;
 
 import com.victorhleme.jobfinder.dto.JobDTO;
+import com.victorhleme.jobfinder.dto.JobInsertDto;
 import com.victorhleme.jobfinder.services.JobService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -27,12 +28,12 @@ public class JobController {
     }
 
     @PostMapping()
-    public JobDTO insert(@Valid @RequestBody JobDTO newJob) {
+    public JobDTO insert(@Valid @RequestBody JobInsertDto newJob) {
         return jobService.insert(newJob);
     }
 
     @PutMapping(value = "/{id}")
-    public JobDTO update(@Valid @RequestBody JobDTO job, @PathVariable Integer id) {
+    public JobDTO update(@Valid @RequestBody JobInsertDto job, @PathVariable Integer id) {
         return jobService.update(job, id);
     }
 

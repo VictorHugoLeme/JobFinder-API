@@ -27,16 +27,16 @@ class JobIntegrationTest {
     private ObjectMapper objectMapper;
 
 
-
     @Nested
     @DisplayName("Tests for method findById")
     class FindByIdTests {
 
         @Test
         void findByIdTestSuccess() throws Exception {
-            MvcResult result = mockMvc.perform(get("/jobs/{id}", 1)
-                            .contentType("application/json"))
-                    .andExpect(status().isOk()).andReturn();
+            MvcResult result = mockMvc.perform(
+                get("/jobs/{id}", 1)
+                    .contentType("application/json"))
+                .andExpect(status().isOk()).andReturn();
             String content = result.getResponse().getContentAsString();
             Assertions.assertNotNull(content);
 

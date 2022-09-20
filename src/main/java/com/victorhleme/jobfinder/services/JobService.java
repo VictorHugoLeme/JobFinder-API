@@ -1,6 +1,7 @@
 package com.victorhleme.jobfinder.services;
 
 import com.victorhleme.jobfinder.dto.JobDTO;
+import com.victorhleme.jobfinder.dto.JobInsertDto;
 import com.victorhleme.jobfinder.exceptions.JobNotFoundException;
 import com.victorhleme.jobfinder.model.Job;
 import com.victorhleme.jobfinder.repositories.JobRepository;
@@ -14,7 +15,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 @AllArgsConstructor
-public class JobService {
+public class JobService implements JobServiceInterface{
 
     @Setter
     private JobRepository repository;
@@ -33,18 +34,17 @@ public class JobService {
         return convertToDTO(job);
     }
 
-    public JobDTO insert(JobDTO jobDto) {
-        jobDto.setId(repository.save(convertToModel(jobDto)).getId());
-
-        return jobDto;
+    public JobDTO insert(JobInsertDto jobDto) {
+        Job job = convertToModel(jobDto);
+        job = repository.save(job);
+        JobDTO dto = convertToDTO(job);
+        return dto;
     }
 
-    public JobDTO update(JobDTO jobDto, Integer id) {
+    public JobDTO update(JobInsertDto jobDto, Integer id) {
         Job job = convertToModel(jobDto);
         job.setId(id);
-        Integer newId = repository.save(job).getId();
-        jobDto.setId(newId);
-        return jobDto;
+        return convertToDTO(repository.save(job));
     }
 
     public void delete(Integer id) {
@@ -62,7 +62,7 @@ public class JobService {
         return modelMapper.map(job, JobDTO.class);
     }
 
-    public Job convertToModel(JobDTO jobDTO) {
+    public Job convertToModel(JobInsertDto jobDTO) {
         return modelMapper.map(jobDTO, Job.class);
     }
 
