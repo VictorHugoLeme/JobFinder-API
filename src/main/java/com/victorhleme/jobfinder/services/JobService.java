@@ -35,10 +35,7 @@ public class JobService implements JobServiceInterface{
     }
 
     public JobDTO insert(JobInsertDto jobDto) {
-        Job job = convertToModel(jobDto);
-        job = repository.save(job);
-        JobDTO dto = convertToDTO(job);
-        return dto;
+        return convertToDTO(repository.save(convertToModel(jobDto)));
     }
 
     public JobDTO update(JobInsertDto jobDto, Integer id) {
