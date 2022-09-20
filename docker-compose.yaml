@@ -1,0 +1,41 @@
+version: '2'
+services:
+  job-finder:
+    container_name: job-finder
+    depends_on:
+      - db
+
+    build:
+      dockerfile: Dockerfile
+    image: job-finder:latest
+    ports:
+      - "8080:8080"
+    networks:
+      - spring-cloud-network
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/postgres
+      - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRING_DATASOURCE_PASSWORD=password
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=update
+
+  db:
+    container_name: postgres
+    image: postgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+      PGDATA: /data/postgres
+    volumes:
+      - postgres:/data/postgres
+    ports:
+      - "5432:5432"
+    networks:
+      - spring-cloud-network
+    restart: unless-stopped
+
+networks:
+  spring-cloud-network:
+    driver: bridge
+
+volumes:
+  postgres:
