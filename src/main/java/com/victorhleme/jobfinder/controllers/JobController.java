@@ -12,7 +12,7 @@ import javax.validation.Valid;
 
 @RestController
 @RequestMapping(value="/jobs")
-public class JobController {
+public class JobController implements JobControllerInterface {
 
     @Autowired
     private JobService jobService;

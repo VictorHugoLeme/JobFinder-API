@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
-public interface Controller {
+public interface JobControllerInterface {
     Page<JobDTO> findAll(Pageable page);
     JobDTO findById(@PathVariable Integer id);
     JobDTO insert(@Valid @RequestBody JobInsertDto newJob);
